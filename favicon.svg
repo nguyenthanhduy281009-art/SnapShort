@@ -1,0 +1,24 @@
+{
+  "translations": {
+    "page_title": "Raccourcisseur d'URL & Générateur QR - Outil gratuit",
+    "page_description": "Raccourcissez vos URLs et générez des codes QR rapidement et gratuitement.",
+    "logo_text": "LinkShort",
+    "hero_title": "Raccourcir les URLs & Générer des QR Codes",
+    "hero_subtitle": "Outil gratuit pour raccourcir vos URLs et créer des codes QR professionnels en quelques secondes",
+    "input_placeholder": "Collez votre lien ici...",
+    "btn_generate": "Générer lien & QR",
+    "result_shortened": "URL raccourcie",
+    "btn_copy_short": "Copier",
+    "btn_download_png": "Télécharger PNG",
+    "btn_download_svg": "Télécharger SVG",
+    "loading_text": "Traitement en cours...",
+    "toast_copied": "Copié !",
+    "toast_error_empty": "Veuillez entrer une URL",
+    "toast_error_url": "Format d'URL invalide",
+    "toast_error_server": "Une erreur est survenue, veuillez réessayer",
+    "toast_success": "Succès !",
+    "theme_toggle_dark": "Passer au mode sombre",
+    "theme_toggle_light": "Passer au mode clair",
+    "footer_text": "© 2026 LinkShort. Gratuit et open source."
+  }
+}
