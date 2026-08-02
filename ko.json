@@ -1,0 +1,24 @@
+{
+  "translations": {
+    "page_title": "URL 단축 & QR 코드 생성 - 무료 도구",
+    "page_description": "긴 URL을 단축하고 QR 코드를 빠르고 무료로 생성합니다.",
+    "logo_text": "LinkShort",
+    "hero_title": "URL 단축 & QR 코드 생성",
+    "hero_subtitle": "URL을 단축하고 전문적인 QR 코드를 몇 초 만에 만드는 무료 도구",
+    "input_placeholder": "여기에 링크를 붙여넣으세요...",
+    "btn_generate": "링크 & QR 생성",
+    "result_shortened": "단축 URL",
+    "btn_copy_short": "복사",
+    "btn_download_png": "PNG 다운로드",
+    "btn_download_svg": "SVG 다운로드",
+    "loading_text": "처리 중...",
+    "toast_copied": "복사되었습니다!",
+    "toast_error_empty": "URL을 입력해주세요",
+    "toast_error_url": "잘못된 URL 형식입니다",
+    "toast_error_server": "오류가 발생했습니다. 다시 시도해주세요",
+    "toast_success": "성공!",
+    "theme_toggle_dark": "다크 모드로 전환",
+    "theme_toggle_light": "라이트 모드로 전환",
+    "footer_text": "© 2026 LinkShort. 무료 오픈소스."
+  }
+}
