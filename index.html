@@ -1,1450 +1,697 @@
 <!DOCTYPE html>
 <html lang="vi" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Rút gọn liên kết dài thành ngắn gọn và tạo mã QR code nhanh chóng, miễn phí. Hỗ trợ nhiều ngôn ngữ, giao diện hiện đại.">
-    <meta name="keywords" content="url shortener, link shortener, qr code generator, rút gọn link, tạo mã qr">
-    <meta name="author" content="LinkShort">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="LinkShort - Rút gọn liên kết & Tạo mã QR">
-    <meta property="og:description" content="Công cụ miễn phí giúp bạn rút gọn URL và tạo mã QR chuyên nghiệp trong vài giây.">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="LinkShort - Rút gọn liên kết & Tạo mã QR">
-    <meta name="theme-color" content="#667eea">
-    <title data-i18n-meta="page_title">Rút gọn liên kết & Tạo mã QR - Công cụ miễn phí</title>
-    
-    <!-- Favicon (inline SVG) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' width='64' height='64'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23667eea'/><stop offset='100%25' stop-color='%23764ba2'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><path d='M22 32c0-5.5 4.5-10 10-10h4M42 32c0 5.5-4.5 10-10 10h-4' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round'/><line x1='30' y1='28' x2='34' y2='28' stroke='white' stroke-width='3.5' stroke-linecap='round'/><line x1='30' y1='36' x2='34' y2='36' stroke='white' stroke-width='3.5' stroke-linecap='round'/></svg>">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- QR Code Library -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    
-    <!-- ALL CSS INLINE -->
-    <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Free URL shortener and QR code generator. Shorten links and create professional QR codes instantly.">
+<meta name="keywords" content="url shortener, link shortener, qr code generator, short link">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="LinkShort - URL Shortener & QR Code Generator">
+<meta property="og:description" content="Shorten URLs and generate QR codes in seconds. Free, fast, no signup.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#667eea">
+<title>LinkShort - URL Shortener & QR Code Generator</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23667eea'/><stop offset='100%25' stop-color='%23764ba2'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><path d='M22 32c0-5.5 4.5-10 10-10h4M42 32c0 5.5-4.5 10-10 10h-4' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round'/><line x1='30' y1='28' x2='34' y2='28' stroke='white' stroke-width='3.5' stroke-linecap='round'/><line x1='30' y1='36' x2='34' y2='36' stroke='white' stroke-width='3.5' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
 :root {
   --primary: #667eea;
   --primary-dark: #5a67d8;
   --secondary: #764ba2;
   --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-soft: linear-gradient(135deg, rgba(102,126,234,0.15) 0%, rgba(118,75,162,0.15) 100%);
-  --bg-color: #f0f2ff;
-  --text-color: #2d3748;
-  --text-muted: #718096;
-  --card-bg: rgba(255, 255, 255, 0.72);
-  --card-border: rgba(255, 255, 255, 0.8);
-  --card-shadow: 0 20px 60px rgba(102, 126, 234, 0.15), 0 8px 24px rgba(118, 75, 162, 0.1);
-  --input-bg: rgba(255, 255, 255, 0.9);
-  --input-border: rgba(102, 126, 234, 0.2);
-  --btn-text: #ffffff;
-  --result-bg: rgba(255, 255, 255, 0.85);
-  --result-border: rgba(102, 126, 234, 0.15);
-  --overlay-bg: rgba(255, 255, 255, 0.5);
-  --toast-bg: rgba(255, 255, 255, 0.95);
-  --toast-success: #48bb78;
-  --toast-error: #e53e3e;
-  --dropdown-bg: rgba(255, 255, 255, 0.95);
-  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --gradient-soft: linear-gradient(135deg, rgba(102,126,234,0.12) 0%, rgba(118,75,162,0.12) 100%);
+  --bg: #f0f2ff;
+  --text: #2d3748;
+  --text2: #718096;
+  --card: rgba(255,255,255,0.72);
+  --card-border: rgba(255,255,255,0.8);
+  --card-shadow: 0 20px 60px rgba(102,126,234,0.15), 0 8px 24px rgba(118,75,162,0.1);
+  --input-bg: rgba(255,255,255,0.92);
+  --input-border: rgba(102,126,234,0.2);
+  --result-bg: rgba(255,255,255,0.85);
+  --result-border: rgba(102,126,234,0.15);
+  --toast-bg: rgba(255,255,255,0.96);
+  --dd-bg: rgba(255,255,255,0.96);
+  --tr: 0.3s cubic-bezier(0.4,0,0.2,1);
 }
-
 [data-theme="dark"] {
-  --bg-color: #1a1a2e;
-  --text-color: #e2e8f0;
-  --text-muted: #a0aec0;
-  --card-bg: rgba(30, 30, 60, 0.75);
-  --card-border: rgba(255, 255, 255, 0.1);
-  --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(102, 126, 234, 0.2);
-  --input-bg: rgba(30, 30, 60, 0.9);
-  --input-border: rgba(102, 126, 234, 0.3);
-  --result-bg: rgba(30, 30, 60, 0.85);
-  --result-border: rgba(102, 126, 234, 0.25);
-  --overlay-bg: rgba(26, 26, 46, 0.6);
-  --toast-bg: rgba(30, 30, 60, 0.95);
-  --dropdown-bg: rgba(30, 30, 60, 0.95);
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--bg-color);
-  color: var(--text-color);
-  min-height: 100vh;
-  transition: background var(--transition), color var(--transition);
-  overflow-x: hidden;
-}
-
-.bg-animation {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  z-index: -1; overflow: hidden;
-}
-
-.bg-animation::before,
-.bg-animation::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.5;
-  animation: floatBlob 20s ease-in-out infinite;
-}
-
-.bg-animation::before {
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(102,126,234,0.3) 0%, transparent 70%);
-  top: -200px; left: -100px;
-}
-
-.bg-animation::after {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(118,75,162,0.25) 0%, transparent 70%);
-  bottom: -150px; right: -100px;
-  animation-delay: -10s;
-}
-
-@keyframes floatBlob {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(50px, -30px) scale(1.1); }
-  50% { transform: translate(-20px, 40px) scale(0.95); }
-  75% { transform: translate(30px, 20px) scale(1.05); }
-}
-
-.main-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.top-bar {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 24px;
-  position: relative;
-  z-index: 100;
-}
-
-.lang-selector { position: relative; }
-
-.lang-selector-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: var(--card-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-color);
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-}
-
-.lang-selector-btn:hover {
-  background: var(--gradient-soft);
-  border-color: var(--primary);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-}
-
-.lang-dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  min-width: 180px;
-  background: var(--dropdown-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 6px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: var(--transition);
-  z-index: 200;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-}
-
-.lang-dropdown.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.lang-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 10px 14px;
-  border: none;
-  background: transparent;
-  border-radius: 8px;
-  font-size: 14px;
-  color: var(--text-color);
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-  text-align: left;
-}
-
-.lang-option:hover { background: var(--gradient-soft); }
-
-.lang-option.active {
-  background: var(--gradient);
-  color: white;
-  font-weight: 600;
-}
-
-.lang-option.active:hover { background: var(--gradient); }
-
-.theme-toggle-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px; height: 40px;
-  background: var(--card-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  color: var(--text-color);
-  cursor: pointer;
-  transition: var(--transition);
-  font-size: 18px;
-}
-
-.theme-toggle-btn:hover {
-  background: var(--gradient-soft);
-  border-color: var(--primary);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-}
-
-.center-content {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.main-card {
-  position: relative;
-  width: 100%;
-  max-width: 520px;
-  background: var(--card-bg);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border: 1px solid var(--card-border);
-  border-radius: 24px;
-  padding: 40px 32px;
-  box-shadow: var(--card-shadow);
-  animation: cardAppear 0.6s ease-out;
-  overflow: hidden;
-}
-
-.main-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 4px;
-  background: var(--gradient);
-}
-
-@keyframes cardAppear {
-  from { opacity: 0; transform: translateY(30px) scale(0.97); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.logo-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.logo-icon {
-  width: 64px; height: 64px;
-  background: var(--gradient);
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 12px;
-  font-size: 28px;
-  color: white;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.35);
-  animation: logoPulse 3s ease-in-out infinite;
-}
-
-@keyframes logoPulse {
-  0%, 100% { box-shadow: 0 8px 24px rgba(102, 126, 234, 0.35); }
-  50% { box-shadow: 0 8px 32px rgba(102, 126, 234, 0.5); }
-}
-
-.logo-text {
-  font-size: 28px;
-  font-weight: 800;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.5px;
-}
-
-.card-title {
-  text-align: center;
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: var(--text-color);
-  line-height: 1.3;
-}
-
-.card-subtitle {
-  text-align: center;
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-bottom: 28px;
-  line-height: 1.5;
-}
-
-.input-group { position: relative; margin-bottom: 20px; }
-
-.url-input {
-  width: 100%;
-  padding: 16px 48px 16px 20px;
-  background: var(--input-bg);
-  border: 2px solid var(--input-border);
-  border-radius: 14px;
-  font-size: 15px;
-  font-family: inherit;
-  color: var(--text-color);
-  transition: var(--transition);
-  outline: none;
-}
-
-.url-input::placeholder { color: var(--text-muted); }
-
-.url-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
-}
-
-.input-icon {
-  position: absolute;
-  right: 16px; top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-muted);
-  font-size: 18px;
-  pointer-events: none;
-}
-
-.btn-group { margin-bottom: 4px; }
-
-.btn {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  padding: 16px 24px;
-  border: none;
-  border-radius: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-}
-
-.btn-primary {
-  background: var(--gradient);
-  color: var(--btn-text);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.45);
-}
-
-.btn-primary:active { transform: translateY(0); }
-
-.ripple {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
-  transform: scale(0);
-  animation: rippleAnim 0.6s ease-out;
-  pointer-events: none;
-}
-
-@keyframes rippleAnim {
-  to { transform: scale(4); opacity: 0; }
-}
-
-.result-section {
-  display: none;
-  margin-top: 24px;
-  animation: resultAppear 0.5s ease-out;
-}
-
-.result-section.show { display: block; }
-
-@keyframes resultAppear {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.result-divider {
-  height: 1px;
-  background: var(--gradient-soft);
-  margin-bottom: 20px;
-  border-radius: 1px;
-}
-
-.result-label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-
-.result-url {
-  padding: 12px 16px;
-  background: var(--input-bg);
-  border: 1px solid var(--result-border);
-  border-radius: 10px;
-  font-size: 14px;
-  word-break: break-all;
-  margin-bottom: 12px;
-}
-
-.result-url a {
-  color: var(--primary);
-  text-decoration: none;
-  transition: var(--transition);
-}
-
-.result-url a:hover {
-  color: var(--primary-dark);
-  text-decoration: underline;
-}
-
-.result-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.result-row .result-url { flex: 1; margin-bottom: 0; }
-
-.btn-copy {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 16px;
-  background: var(--gradient);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-  white-space: nowrap;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-copy:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-}
-
-.btn-copy.copied {
-  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-}
-
-.btn-download {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 14px;
-  background: var(--input-bg);
-  color: var(--text-color);
-  border: 1px solid var(--result-border);
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-  white-space: nowrap;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-download:hover {
-  border-color: var(--primary);
-  background: var(--gradient-soft);
-  transform: translateY(-1px);
-}
-
-.result-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.qr-display {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  background: white;
-  border-radius: 16px;
-  margin-top: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-}
-
-[data-theme="dark"] .qr-display { background: white; }
-
-.qr-image {
-  width: 220px; height: 220px;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-}
-
-.qr-image:hover { transform: scale(1.05); }
-
-.loading-overlay {
-  position: absolute;
-  inset: 0;
-  background: var(--overlay-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  z-index: 50;
-  opacity: 0;
-  visibility: hidden;
-  transition: var(--transition);
-}
-
-.loading-overlay.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-.spinner {
-  width: 40px; height: 40px;
-  border: 3px solid rgba(102, 126, 234, 0.2);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.loading-text {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--primary);
-}
-
-.toast-container {
-  position: fixed;
-  top: 20px; right: 20px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.toast {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
-  background: var(--toast-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-color);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-  animation: toastIn 0.4s ease-out;
-  transition: var(--transition);
-}
-
-.toast.success { border-left: 4px solid var(--toast-success); }
-.toast.error { border-left: 4px solid var(--toast-error); }
-
-.toast.removing {
-  opacity: 0;
-  transform: translateX(100px);
-}
-
-@keyframes toastIn {
-  from { opacity: 0; transform: translateX(100px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-.footer {
-  text-align: center;
-  padding: 24px;
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-@media (max-width: 600px) {
-  .main-card { padding: 32px 20px; border-radius: 20px; }
-  .card-title { font-size: 19px; }
-  .logo-icon { width: 56px; height: 56px; font-size: 24px; border-radius: 16px; }
-  .logo-text { font-size: 24px; }
-  .url-input { padding: 14px 44px 14px 16px; font-size: 14px; }
-  .btn { padding: 14px 20px; font-size: 15px; }
-  .result-row { flex-direction: column; }
-  .result-row .result-url { width: 100%; }
-  .result-actions { flex-direction: column; }
-  .btn-copy, .btn-download { width: 100%; justify-content: center; }
-  .qr-image { width: 180px; height: 180px; }
-  .top-bar { padding: 12px 16px; }
-  .toast-container { right: 12px; left: 12px; }
-}
-
-@media (max-width: 400px) {
-  .main-card { padding: 24px 16px; }
-  .card-title { font-size: 17px; }
-  .card-subtitle { font-size: 13px; }
-}
-    </style>
+  --bg: #0f0f1a;
+  --text: #e2e8f0;
+  --text2: #a0aec0;
+  --card: rgba(20,20,40,0.78);
+  --card-border: rgba(255,255,255,0.08);
+  --card-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 8px 24px rgba(102,126,234,0.2);
+  --input-bg: rgba(20,20,40,0.92);
+  --input-border: rgba(102,126,234,0.3);
+  --result-bg: rgba(20,20,40,0.85);
+  --result-border: rgba(102,126,234,0.25);
+  --toast-bg: rgba(20,20,40,0.96);
+  --dd-bg: rgba(20,20,40,0.96);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--tr),color var(--tr);overflow-x:hidden}
+
+.bg-blob{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;overflow:hidden;pointer-events:none}
+.bg-blob::before,.bg-blob::after{content:'';position:absolute;border-radius:50%;filter:blur(100px);opacity:0.5;animation:blob 20s ease-in-out infinite}
+.bg-blob::before{width:600px;height:600px;background:radial-gradient(circle,rgba(102,126,234,0.3),transparent 70%);top:-200px;left:-100px}
+.bg-blob::after{width:500px;height:500px;background:radial-gradient(circle,rgba(118,75,162,0.25),transparent 70%);bottom:-150px;right:-100px;animation-delay:-10s}
+@keyframes blob{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(50px,-30px) scale(1.1)}50%{transform:translate(-20px,40px) scale(0.95)}75%{transform:translate(30px,20px) scale(1.05)}}
+
+.topbar{display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:16px 24px;position:relative;z-index:100}
+
+.lang-wrap{position:relative}
+.lang-btn{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:12px;font-size:14px;font-weight:500;color:var(--text);cursor:pointer;transition:var(--tr);font-family:inherit}
+.lang-btn:hover{background:var(--gradient-soft);border-color:var(--primary);transform:translateY(-1px);box-shadow:0 4px 12px rgba(102,126,234,0.2)}
+
+.lang-dd{position:absolute;top:calc(100% + 8px);right:0;min-width:180px;background:var(--dd-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:12px;padding:6px;opacity:0;visibility:hidden;transform:translateY(-10px);transition:var(--tr);z-index:200;box-shadow:0 10px 40px rgba(0,0,0,0.15)}
+.lang-dd.open{opacity:1;visibility:visible;transform:translateY(0)}
+
+.lang-opt{display:flex;align-items:center;gap:10px;width:100%;padding:10px 14px;border:none;background:transparent;border-radius:8px;font-size:14px;color:var(--text);cursor:pointer;transition:var(--tr);font-family:inherit;text-align:left}
+.lang-opt:hover{background:var(--gradient-soft)}
+.lang-opt.active{background:var(--gradient);color:#fff;font-weight:600}
+.lang-opt.active:hover{background:var(--gradient)}
+
+.theme-btn{display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:12px;color:var(--text);cursor:pointer;transition:var(--tr);font-size:18px}
+.theme-btn:hover{background:var(--gradient-soft);border-color:var(--primary);transform:translateY(-1px);box-shadow:0 4px 12px rgba(102,126,234,0.2)}
+
+.main-wrap{display:flex;align-items:center;justify-content:center;padding:20px;min-height:calc(100vh - 72px)}
+
+.card{position:relative;width:100%;max-width:520px;background:var(--card);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid var(--card-border);border-radius:24px;padding:40px 32px;box-shadow:var(--card-shadow);animation:cardIn 0.6s ease-out;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gradient)}
+@keyframes cardIn{from{opacity:0;transform:translateY(30px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+.logo-box{display:flex;flex-direction:column;align-items:center;margin-bottom:20px}
+.logo-icon{width:64px;height:64px;background:var(--gradient);border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:28px;color:#fff;box-shadow:0 8px 24px rgba(102,126,234,0.35);animation:logoGlow 3s ease-in-out infinite}
+@keyframes logoGlow{0%,100%{box-shadow:0 8px 24px rgba(102,126,234,0.35)}50%{box-shadow:0 8px 36px rgba(102,126,234,0.55)}}
+.logo-name{font-size:28px;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.5px}
+
+.card-h{font-size:22px;font-weight:700;text-align:center;margin-bottom:8px;color:var(--text);line-height:1.3}
+.card-sub{font-size:14px;text-align:center;color:var(--text2);margin-bottom:28px;line-height:1.5}
+
+.input-wrap{position:relative;margin-bottom:20px}
+.url-input{width:100%;padding:16px 48px 16px 20px;background:var(--input-bg);border:2px solid var(--input-border);border-radius:14px;font-size:15px;font-family:inherit;color:var(--text);transition:var(--tr);outline:none}
+.url-input::placeholder{color:var(--text2)}
+.url-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(102,126,234,0.12)}
+.input-ico{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--text2);font-size:18px;pointer-events:none}
+
+.gen-btn{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px 24px;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;transition:var(--tr);font-family:inherit;background:var(--gradient);color:#fff;box-shadow:0 6px 20px rgba(102,126,234,0.35)}
+.gen-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(102,126,234,0.45)}
+.gen-btn:active{transform:translateY(0)}
+
+.ripple-el{position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);transform:scale(0);animation:rip 0.6s ease-out;pointer-events:none}
+@keyframes rip{to{transform:scale(4);opacity:0}}
+
+.result-area{display:none;margin-top:24px;animation:resultIn 0.5s ease-out}
+.result-area.show{display:block}
+@keyframes resultIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+.divider{height:1px;background:var(--gradient-soft);margin-bottom:20px;border-radius:1px}
+
+.r-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2);margin-bottom:8px}
+.r-url-box{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.r-url{flex:1;padding:12px 16px;background:var(--input-bg);border:1px solid var(--result-border);border-radius:10px;font-size:14px;word-break:break-all}
+.r-url a{color:var(--primary);text-decoration:none;transition:var(--tr)}
+.r-url a:hover{color:var(--primary-dark);text-decoration:underline}
+
+.btn-copy{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;background:var(--gradient);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);font-family:inherit;white-space:nowrap;position:relative;overflow:hidden}
+.btn-copy:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(102,126,234,0.3)}
+.btn-copy.done{background:linear-gradient(135deg,#48bb78,#38a169)}
+
+.qr-wrap{display:flex;flex-direction:column;align-items:center;margin:20px 0;padding:20px;background:var(--result-bg);border:1px solid var(--result-border);border-radius:16px}
+.qr-img{width:200px;height:200px;border-radius:8px}
+
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+.btn-dl{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;background:var(--input-bg);color:var(--text);border:1px solid var(--result-border);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);font-family:inherit}
+.btn-dl:hover{border-color:var(--primary);transform:translateY(-1px);box-shadow:0 4px 12px rgba(102,126,234,0.15)}
+
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;visibility:hidden;transition:var(--tr)}
+.overlay.show{opacity:1;visibility:visible}
+.spinner{width:48px;height:48px;border:4px solid var(--input-border);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);padding:12px 24px;background:var(--toast-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:12px;font-size:14px;font-weight:500;color:var(--text);box-shadow:0 8px 30px rgba(0,0,0,0.12);z-index:1000;opacity:0;transition:all 0.4s cubic-bezier(0.4,0,0.2,1)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.ok{border-left:4px solid #48bb78}
+.toast.err{border-left:4px solid #e53e3e}
+
+.footer{text-align:center;padding:16px;font-size:13px;color:var(--text2)}
+
+@media(max-width:600px){
+  .card{padding:28px 20px;margin:10px}
+  .logo-icon{width:52px;height:52px;font-size:22px;border-radius:14px}
+  .logo-name{font-size:24px}
+  .card-h{font-size:18px}
+  .topbar{padding:12px 16px}
+  .qr-img{width:160px;height:160px}
+  .actions{flex-direction:column;align-items:stretch}
+}
+</style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-animation"></div>
-    
-    <!-- Toast Container -->
-    <div id="toastContainer" class="toast-container"></div>
-    
-    <div class="main-wrapper">
-        <!-- Top Bar with Language & Theme -->
-        <header class="top-bar">
-            <div class="lang-selector">
-                <button id="langToggleBtn" class="lang-selector-btn" type="button" aria-label="Language selector">
-                    <span>🇻🇳</span>
-                    <span>Tiếng Việt</span>
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div id="langDropdown" class="lang-dropdown" role="menu"></div>
-            </div>
-            
-            <button id="themeToggle" class="theme-toggle-btn" type="button" 
-                    data-i18n-title="theme_toggle_dark" 
-                    aria-label="Toggle theme">
-                <i id="themeIcon" class="fas fa-sun"></i>
-            </button>
-        </header>
-        
-        <!-- Center Content -->
-        <main class="center-content">
-            <div class="main-card" id="mainCard">
-                <!-- Loading Overlay -->
-                <div id="loadingOverlay" class="loading-overlay">
-                    <div class="spinner"></div>
-                    <span class="loading-text" data-i18n="loading_text">Đang xử lý...</span>
-                </div>
-                
-                <!-- Logo -->
-                <div class="logo-container">
-                    <div class="logo-icon">
-                        <i class="fas fa-link"></i>
-                    </div>
-                    <div class="logo-text" data-i18n="logo_text">LinkShort</div>
-                </div>
-                
-                <!-- Title -->
-                <h1 class="card-title" data-i18n="hero_title">Rút gọn liên kết & Tạo mã QR</h1>
-                <p class="card-subtitle" data-i18n="hero_subtitle">Công cụ miễn phí giúp bạn rút gọn URL và tạo mã QR chuyên nghiệp trong vài giây</p>
-                
-                <!-- Input -->
-                <div class="input-group">
-                    <input type="url" id="urlInput" class="url-input" 
-                           data-i18n-placeholder="input_placeholder"
-                           placeholder="Dán liên kết của bạn vào đây..."
-                           autocomplete="url"
-                           spellcheck="false"
-                           aria-label="URL input">
-                    <span class="input-icon"><i class="fas fa-link"></i></span>
-                </div>
-                
-                <!-- Single Button -->
-                <div class="btn-group">
-                    <button type="button" id="btnGenerate" class="btn btn-primary">
-                        <i class="fas fa-magic"></i>
-                        <span data-i18n="btn_generate">Tạo Link & QR</span>
-                    </button>
-                </div>
-                
-                <!-- Result Section -->
-                <div id="resultSection" class="result-section"></div>
-            </div>
-        </main>
-        
-        <!-- Footer -->
-        <footer class="footer">
-            <p data-i18n="footer_text">© 2026 LinkShort. Miễn phí và mã nguồn mở.</p>
-        </footer>
+
+<div class="bg-blob"></div>
+
+<div class="overlay" id="overlay"><div class="spinner"></div></div>
+<div class="toast" id="toast"></div>
+
+<header class="topbar">
+  <div class="lang-wrap">
+    <button class="lang-btn" id="langBtn"><span id="langFlag">🇻🇳</span> <span id="langName">Tiếng Việt</span> <i class="fas fa-chevron-down" style="font-size:10px"></i></button>
+    <div class="lang-dd" id="langDd"></div>
+  </div>
+  <button class="theme-btn" id="themeBtn"><i class="fas fa-sun" id="themeIco"></i></button>
+</header>
+
+<main class="main-wrap">
+  <div class="card">
+    <div class="logo-box">
+      <div class="logo-icon"><i class="fas fa-link"></i></div>
+      <div class="logo-name">LinkShort</div>
     </div>
-    
-    <!-- ALL JAVASCRIPT INLINE -->
-    <script>
-/* ============================================================
-   LinkShort - Single File Version (No external fetch needed)
-   ============================================================ */
+    <h1 class="card-h" data-i18n="hero_title">Rút gọn liên kết & Tạo mã QR</h1>
+    <p class="card-sub" data-i18n="hero_sub">Công cụ miễn phí giúp bạn rút gọn URL và tạo mã QR chuyên nghiệp trong vài giây</p>
+    <div class="input-wrap">
+      <input type="url" class="url-input" id="urlIn" placeholder="Dán liên kết của bạn vào đây..." data-i18n-placeholder="input_ph">
+      <i class="fas fa-link input-ico"></i>
+    </div>
+    <button class="gen-btn" id="genBtn" data-i18n="btn_gen"><i class="fas fa-magic"></i> Tạo Link & QR</button>
+    <div class="result-area" id="resultArea"></div>
+  </div>
+</main>
 
+<footer class="footer" data-i18n="footer">© 2026 LinkShort. Miễn phí và mã nguồn mở.</footer>
+
+<script>
 // ============================================================
-// ALL TRANSLATIONS INLINE (no fetch required)
+// LANGUAGES (all inline - no fetch needed)
 // ============================================================
-const LANGUAGES = {
-  vi: {
-    page_title: "Rút gọn liên kết & Tạo mã QR - Công cụ miễn phí",
-    page_description: "Rút gọn liên kết dài thành ngắn gọn và tạo mã QR code nhanh chóng, miễn phí.",
-    logo_text: "LinkShort",
-    hero_title: "Rút gọn liên kết & Tạo mã QR",
-    hero_subtitle: "Công cụ miễn phí giúp bạn rút gọn URL và tạo mã QR chuyên nghiệp trong vài giây",
-    input_placeholder: "Dán liên kết của bạn vào đây...",
-    btn_generate: "Tạo Link & QR",
-    result_shortened: "Liên kết rút gọn",
-    btn_copy_short: "Sao chép",
-    btn_download_png: "Tải PNG",
-    btn_download_svg: "Tải SVG",
-    loading_text: "Đang xử lý...",
-    toast_copied: "Đã sao chép!",
-    toast_error_empty: "Vui lòng nhập liên kết",
-    toast_error_url: "Liên kết không hợp lệ",
-    toast_error_server: "Có lỗi xảy ra, vui lòng thử lại",
-    toast_success: "Thành công!",
-    theme_toggle_dark: "Chuyển sang chế độ tối",
-    theme_toggle_light: "Chuyển sang chế độ sáng",
-    footer_text: "© 2026 LinkShort. Miễn phí và mã nguồn mở."
+const LANGS = {
+  vi:{
+    hero_title:"Rút gọn liên kết & Tạo mã QR",
+    hero_sub:"Công cụ miễn phí giúp bạn rút gọn URL và tạo mã QR chuyên nghiệp trong vài giây",
+    input_ph:"Dán liên kết của bạn vào đây...",
+    btn_gen:"Tạo Link & QR",
+    r_short:"LINK RÚT GỌN",
+    btn_copy:"Sao chép",
+    btn_dl_png:"Tải PNG",
+    btn_dl_svg:"Tải SVG",
+    toast_copied:"Đã sao chép!",
+    toast_empty:"Vui lòng nhập URL",
+    toast_bad:"URL không hợp lệ",
+    theme_dark:"Chuyển sang chế độ tối",
+    theme_light:"Chuyển sang chế độ sáng",
+    footer:"© 2026 LinkShort. Miễn phí và mã nguồn mở.",
+    langName:"Tiếng Việt"
   },
-  en: {
-    page_title: "URL Shortener & QR Code Generator - Free Tool",
-    page_description: "Shorten long URLs and generate QR codes quickly and for free.",
-    logo_text: "LinkShort",
-    hero_title: "Shorten URLs & Generate QR Codes",
-    hero_subtitle: "Free tool to shorten your URLs and create professional QR codes in seconds",
-    input_placeholder: "Paste your link here...",
-    btn_generate: "Generate Link & QR",
-    result_shortened: "Shortened URL",
-    btn_copy_short: "Copy",
-    btn_download_png: "Download PNG",
-    btn_download_svg: "Download SVG",
-    loading_text: "Processing...",
-    toast_copied: "Copied!",
-    toast_error_empty: "Please enter a URL",
-    toast_error_url: "Invalid URL format",
-    toast_error_server: "Something went wrong, please try again",
-    toast_success: "Success!",
-    theme_toggle_dark: "Switch to dark mode",
-    theme_toggle_light: "Switch to light mode",
-    footer_text: "© 2026 LinkShort. Free and open source."
+  en:{
+    hero_title:"Shorten URLs & Generate QR Codes",
+    hero_sub:"Free tool to shorten your URLs and create professional QR codes in seconds",
+    input_ph:"Paste your link here...",
+    btn_gen:"Generate Link & QR",
+    r_short:"SHORTENED URL",
+    btn_copy:"Copy",
+    btn_dl_png:"Download PNG",
+    btn_dl_svg:"Download SVG",
+    toast_copied:"Copied!",
+    toast_empty:"Please enter a URL",
+    toast_bad:"Invalid URL format",
+    theme_dark:"Switch to dark mode",
+    theme_light:"Switch to light mode",
+    footer:"© 2026 LinkShort. Free and open source.",
+    langName:"English"
   },
-  ja: {
-    page_title: "URL短縮 & QRコード生成 - 無料ツール",
-    page_description: "長いURLを短縮し、QRコードを素早く無料で生成します。",
-    logo_text: "LinkShort",
-    hero_title: "URL短縮 & QRコード生成",
-    hero_subtitle: "URLを短縮し、プロフェッショナルなQRコードを数秒で作成する無料ツール",
-    input_placeholder: "ここにリンクを貼り付けてください...",
-    btn_generate: "リンク＆QRを生成",
-    result_shortened: "短縮URL",
-    btn_copy_short: "コピー",
-    btn_download_png: "PNGダウンロード",
-    btn_download_svg: "SVGダウンロード",
-    loading_text: "処理中...",
-    toast_copied: "コピーしました！",
-    toast_error_empty: "URLを入力してください",
-    toast_error_url: "無効なURL形式です",
-    toast_error_server: "エラーが発生しました。もう一度お試しください",
-    toast_success: "成功！",
-    theme_toggle_dark: "ダークモードに切り替え",
-    theme_toggle_light: "ライトモードに切り替え",
-    footer_text: "© 2026 LinkShort. 無料でオープンソース。"
+  ja:{
+    hero_title:"URL短縮 & QRコード生成",
+    hero_sub:"数秒でURLを短縮し、プロフェッショナルなQRコードを作成する無料ツール",
+    input_ph:"リンクを貼り付けてください...",
+    btn_gen:"リンク & QRを生成",
+    r_short:"短縮URL",
+    btn_copy:"コピー",
+    btn_dl_png:"PNGをダウンロード",
+    btn_dl_svg:"SVGをダウンロード",
+    toast_copied:"コピーしました！",
+    toast_empty:"URLを入力してください",
+    toast_bad:"URLの形式が無効です",
+    theme_dark:"ダークモードに切り替え",
+    theme_light:"ライトモードに切り替え",
+    footer:"© 2026 LinkShort. 無料でオープンソース。",
+    langName:"日本語"
   },
-  ko: {
-    page_title: "URL 단축 & QR 코드 생성 - 무료 도구",
-    page_description: "긴 URL을 단축하고 QR 코드를 빠르고 무료로 생성합니다.",
-    logo_text: "LinkShort",
-    hero_title: "URL 단축 & QR 코드 생성",
-    hero_subtitle: "URL을 단축하고 전문적인 QR 코드를 몇 초 만에 만드는 무료 도구",
-    input_placeholder: "여기에 링크를 붙여넣으세요...",
-    btn_generate: "링크 & QR 생성",
-    result_shortened: "단축 URL",
-    btn_copy_short: "복사",
-    btn_download_png: "PNG 다운로드",
-    btn_download_svg: "SVG 다운로드",
-    loading_text: "처리 중...",
-    toast_copied: "복사되었습니다!",
-    toast_error_empty: "URL을 입력해주세요",
-    toast_error_url: "잘못된 URL 형식입니다",
-    toast_error_server: "오류가 발생했습니다. 다시 시도해주세요",
-    toast_success: "성공!",
-    theme_toggle_dark: "다크 모드로 전환",
-    theme_toggle_light: "라이트 모드로 전환",
-    footer_text: "© 2026 LinkShort. 무료 오픈소스."
+  ko:{
+    hero_title:"URL 단축 & QR 코드 생성",
+    hero_sub:"몇 초 만에 URL을 단축하고 전문적인 QR 코드를 생성하는 무료 도구",
+    input_ph:"링크를 붙여넣어 주세요...",
+    btn_gen:"링크 & QR 생성",
+    r_short:"단축된 URL",
+    btn_copy:"복사",
+    btn_dl_png:"PNG 다운로드",
+    btn_dl_svg:"SVG 다운로드",
+    toast_copied:"복사되었습니다!",
+    toast_empty:"URL을 입력해주세요",
+    toast_bad:"잘못된 URL 형식",
+    theme_dark:"다크 모드로 전환",
+    theme_light:"라이트 모드로 전환",
+    footer:"© 2026 LinkShort. 무료 오픈 소스.",
+    langName:"한국어"
   },
-  zh: {
-    page_title: "网址缩短 & 二维码生成 - 免费工具",
-    page_description: "快速免费缩短长网址并生成二维码。",
-    logo_text: "LinkShort",
-    hero_title: "网址缩短 & 二维码生成",
-    hero_subtitle: "免费工具，帮助您缩短URL并在几秒内创建专业二维码",
-    input_placeholder: "在此粘贴您的链接...",
-    btn_generate: "生成链接 & 二维码",
-    result_shortened: "缩短后的链接",
-    btn_copy_short: "复制",
-    btn_download_png: "下载PNG",
-    btn_download_svg: "下载SVG",
-    loading_text: "处理中...",
-    toast_copied: "已复制！",
-    toast_error_empty: "请输入链接",
-    toast_error_url: "无效的URL格式",
-    toast_error_server: "发生错误，请重试",
-    toast_success: "成功！",
-    theme_toggle_dark: "切换到深色模式",
-    theme_toggle_light: "切换到浅色模式",
-    footer_text: "© 2026 LinkShort. 免费开源。"
+  zh:{
+    hero_title:"缩短网址 & 生成二维码",
+    hero_sub:"免费工具，几秒钟内缩短您的网址并生成专业的二维码",
+    input_ph:"在此粘贴您的链接...",
+    btn_gen:"生成链接 & 二维码",
+    r_short:"缩短后的网址",
+    btn_copy:"复制",
+    btn_dl_png:"下载 PNG",
+    btn_dl_svg:"下载 SVG",
+    toast_copied:"已复制！",
+    toast_empty:"请输入网址",
+    toast_bad:"无效的网址格式",
+    theme_dark:"切换到深色模式",
+    theme_light:"切换到浅色模式",
+    footer:"© 2026 LinkShort. 免费开源。",
+    langName:"中文"
   },
-  fr: {
-    page_title: "Raccourcisseur d'URL & Générateur QR - Outil gratuit",
-    page_description: "Raccourcissez vos URLs et générez des codes QR rapidement et gratuitement.",
-    logo_text: "LinkShort",
-    hero_title: "Raccourcir les URLs & Générer des QR Codes",
-    hero_subtitle: "Outil gratuit pour raccourcir vos URLs et créer des codes QR professionnels en quelques secondes",
-    input_placeholder: "Collez votre lien ici...",
-    btn_generate: "Générer lien & QR",
-    result_shortened: "URL raccourcie",
-    btn_copy_short: "Copier",
-    btn_download_png: "Télécharger PNG",
-    btn_download_svg: "Télécharger SVG",
-    loading_text: "Traitement en cours...",
-    toast_copied: "Copié !",
-    toast_error_empty: "Veuillez entrer une URL",
-    toast_error_url: "Format d'URL invalide",
-    toast_error_server: "Une erreur est survenue, veuillez réessayer",
-    toast_success: "Succès !",
-    theme_toggle_dark: "Passer au mode sombre",
-    theme_toggle_light: "Passer au mode clair",
-    footer_text: "© 2026 LinkShort. Gratuit et open source."
+  fr:{
+    hero_title:"Raccourcir les URLs & Générer des QR Codes",
+    hero_sub:"Outil gratuit pour raccourcir vos URLs et créer des codes QR professionnels en quelques secondes",
+    input_ph:"Collez votre lien ici...",
+    btn_gen:"Générer lien & QR",
+    r_short:"URL RACCOURCIE",
+    btn_copy:"Copier",
+    btn_dl_png:"Télécharger PNG",
+    btn_dl_svg:"Télécharger SVG",
+    toast_copied:"Copié !",
+    toast_empty:"Veuillez entrer une URL",
+    toast_bad:"Format d'URL invalide",
+    theme_dark:"Passer au mode sombre",
+    theme_light:"Passer au mode clair",
+    footer:"© 2026 LinkShort. Gratuit et open source.",
+    langName:"Français"
   },
-  de: {
-    page_title: "URL-Kürzer & QR-Code-Generator - Kostenlos",
-    page_description: "Verkürzen Sie lange URLs und generieren Sie QR-Codes schnell und kostenlos.",
-    logo_text: "LinkShort",
-    hero_title: "URLs kürzen & QR-Codes generieren",
-    hero_subtitle: "Kostenloses Tool zum Kürzen von URLs und Erstellen professioneller QR-Codes in Sekunden",
-    input_placeholder: "Fügen Sie hier Ihren Link ein...",
-    btn_generate: "Link & QR erstellen",
-    result_shortened: "Gekürzte URL",
-    btn_copy_short: "Kopieren",
-    btn_download_png: "PNG herunterladen",
-    btn_download_svg: "SVG herunterladen",
-    loading_text: "Wird verarbeitet...",
-    toast_copied: "Kopiert!",
-    toast_error_empty: "Bitte geben Sie eine URL ein",
-    toast_error_url: "Ungültiges URL-Format",
-    toast_error_server: "Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut",
-    toast_success: "Erfolgreich!",
-    theme_toggle_dark: "Zum Dunkelmodus wechseln",
-    theme_toggle_light: "Zum Hellmodus wechseln",
-    footer_text: "© 2026 LinkShort. Kostenlos und Open Source."
+  de:{
+    hero_title:"URLs kürzen & QR-Codes generieren",
+    hero_sub:"Kostenloses Tool zum Kürzen von URLs und Erstellen professioneller QR-Codes in Sekunden",
+    input_ph:"Fügen Sie hier Ihren Link ein...",
+    btn_gen:"Link & QR erstellen",
+    r_short:"GEKÜRZTE URL",
+    btn_copy:"Kopieren",
+    btn_dl_png:"PNG herunterladen",
+    btn_dl_svg:"SVG herunterladen",
+    toast_copied:"Kopiert!",
+    toast_empty:"Bitte geben Sie eine URL ein",
+    toast_bad:"Ungültiges URL-Format",
+    theme_dark:"Zum Dunkelmodus wechseln",
+    theme_light:"Zum Hellmodus wechseln",
+    footer:"© 2026 LinkShort. Kostenlos und Open Source.",
+    langName:"Deutsch"
   },
-  es: {
-    page_title: "Acortador de URL & Generador de QR - Herramienta gratuita",
-    page_description: "Acorte URLs largas y genere códigos QR rápida y gratuitamente.",
-    logo_text: "LinkShort",
-    hero_title: "Acortar URLs & Generar códigos QR",
-    hero_subtitle: "Herramienta gratuita para acortar sus URLs y crear códigos QR profesionales en segundos",
-    input_placeholder: "Pegue su enlace aquí...",
-    btn_generate: "Generar enlace & QR",
-    result_shortened: "URL acortada",
-    btn_copy_short: "Copiar",
-    btn_download_png: "Descargar PNG",
-    btn_download_svg: "Descargar SVG",
-    loading_text: "Procesando...",
-    toast_copied: "¡Copiado!",
-    toast_error_empty: "Por favor ingrese una URL",
-    toast_error_url: "Formato de URL inválido",
-    toast_error_server: "Ocurrió un error, por favor intente de nuevo",
-    toast_success: "¡Éxito!",
-    theme_toggle_dark: "Cambiar a modo oscuro",
-    theme_toggle_light: "Cambiar a modo claro",
-    footer_text: "© 2026 LinkShort. Gratis y de código abierto."
+  es:{
+    hero_title:"Acortar URLs & Generar códigos QR",
+    hero_sub:"Herramienta gratuita para acortar sus URLs y crear códigos QR profesionales en segundos",
+    input_ph:"Pegue su enlace aquí...",
+    btn_gen:"Generar enlace & QR",
+    r_short:"URL ACORTADA",
+    btn_copy:"Copiar",
+    btn_dl_png:"Descargar PNG",
+    btn_dl_svg:"Descargar SVG",
+    toast_copied:"¡Copiado!",
+    toast_empty:"Por favor ingrese una URL",
+    toast_bad:"Formato de URL inválido",
+    theme_dark:"Cambiar a modo oscuro",
+    theme_light:"Cambiar a modo claro",
+    footer:"© 2026 LinkShort. Gratis y de código abierto.",
+    langName:"Español"
   }
 };
 
-// ============================================================
-// Language System (no fetch - all inline)
-// ============================================================
-const LangSystem = {
-  currentLang: 'vi',
-  availableLangs: [
-    { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
-    { code: 'en', name: 'English', flag: '🇬🇧' },
-    { code: 'ja', name: '日本語', flag: '🇯🇵' },
-    { code: 'ko', name: '한국어', flag: '🇰🇷' },
-    { code: 'zh', name: '中文', flag: '🇨🇳' },
-    { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-    { code: 'es', name: 'Español', flag: '🇪🇸' }
-  ],
-
-  init() {
-    const storedLang = localStorage.getItem('linkshort_lang');
-    const browserLang = navigator.language.substring(0, 2);
-
-    if (storedLang && LANGUAGES[storedLang]) {
-      this.currentLang = storedLang;
-    } else {
-      const isAvailable = this.availableLangs.some(l => l.code === browserLang && LANGUAGES[browserLang]);
-      this.currentLang = isAvailable ? browserLang : 'vi';
-      localStorage.setItem('linkshort_lang', this.currentLang);
-    }
-
-    this.applyTranslations();
-    this.updateLanguageButton();
-    this.renderLanguageDropdown();
-  },
-
-  t(key) {
-    return LANGUAGES[this.currentLang]?.[key] || key;
-  },
-
-  applyTranslations() {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      el.textContent = this.t(key);
-    });
-
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      const key = el.getAttribute('data-i18n-placeholder');
-      el.placeholder = this.t(key);
-    });
-
-    document.querySelectorAll('[data-i18n-title]').forEach(el => {
-      const key = el.getAttribute('data-i18n-title');
-      el.title = this.t(key);
-    });
-
-    document.querySelectorAll('[data-i18n-meta]').forEach(el => {
-      const key = el.getAttribute('data-i18n-meta');
-      el.content = this.t(key);
-    });
-  },
-
-  updateLanguageButton() {
-    const btn = document.getElementById('langToggleBtn');
-    if (!btn) return;
-    const currentLangObj = this.availableLangs.find(l => l.code === this.currentLang);
-    if (currentLangObj) {
-      btn.innerHTML = '<span>' + currentLangObj.flag + '</span> <span>' + currentLangObj.name + '</span> <i class="fas fa-chevron-down"></i>';
-    }
-  },
-
-  changeLanguage(langCode) {
-    if (langCode === this.currentLang) {
-      document.getElementById('langDropdown').classList.remove('show');
-      return;
-    }
-
-    if (!LANGUAGES[langCode]) return;
-
-    this.currentLang = langCode;
-    localStorage.setItem('linkshort_lang', langCode);
-    document.documentElement.setAttribute('lang', langCode);
-
-    this.applyTranslations();
-    this.updateLanguageButton();
-    this.renderLanguageDropdown();
-
-    const resultSection = document.getElementById('resultSection');
-    if (resultSection && resultSection.classList.contains('show')) {
-      App.renderResult();
-    }
-
-    Toast.show(this.t('toast_success'), 'success');
-    document.getElementById('langDropdown').classList.remove('show');
-  },
-
-  renderLanguageDropdown() {
-    const dropdown = document.getElementById('langDropdown');
-    if (!dropdown) return;
-    dropdown.innerHTML = this.availableLangs.map(lang => {
-      return '<button class="lang-option ' + (lang.code === this.currentLang ? 'active' : '') + '" type="button" onclick="LangSystem.changeLanguage(\'' + lang.code + '\')"><span>' + lang.flag + '</span><span>' + lang.name + '</span></button>';
-    }).join('');
-  }
-};
+const LANG_LIST = [
+  {code:'vi',flag:'🇻🇳',name:'Tiếng Việt'},
+  {code:'en',flag:'🇬🇧',name:'English'},
+  {code:'ja',flag:'🇯🇵',name:'日本語'},
+  {code:'ko',flag:'🇰🇷',name:'한국어'},
+  {code:'zh',flag:'🇨🇳',name:'中文'},
+  {code:'fr',flag:'🇫🇷',name:'Français'},
+  {code:'de',flag:'🇩🇪',name:'Deutsch'},
+  {code:'es',flag:'🇪🇸',name:'Español'}
+];
 
 // ============================================================
-// Toast Notification System
+// APP STATE
 // ============================================================
-const Toast = {
-  container: null,
-  init() {
-    this.container = document.getElementById('toastContainer');
-  },
-  show(message, type, duration) {
-    if (!this.container) return;
-    type = type || 'success';
-    duration = duration || 3000;
-    var toast = document.createElement('div');
-    toast.className = 'toast ' + type;
-    var icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
-    toast.innerHTML = '<i class="fas ' + icon + '"></i> <span>' + message + '</span>';
-    this.container.appendChild(toast);
-    setTimeout(function() {
-      toast.classList.add('removing');
-      setTimeout(function() { toast.remove(); }, 300);
-    }, duration);
-  }
-};
+let currentLang = 'vi';
+let shortCode = '';
 
 // ============================================================
-// Ripple Effect
+// ROUTER: Check short code -> redirect
 // ============================================================
-const RippleEffect = {
-  init() {
-    document.querySelectorAll('.btn, .btn-copy, .btn-download, .lang-option, .theme-toggle-btn').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        var ripple = document.createElement('span');
-        var rect = btn.getBoundingClientRect();
-        var size = Math.max(rect.width, rect.height);
-        var x = e.clientX - rect.left - size / 2;
-        var y = e.clientY - rect.top - size / 2;
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        ripple.className = 'ripple';
-        btn.appendChild(ripple);
-        setTimeout(function() { ripple.remove(); }, 600);
-      });
-    });
-  }
-};
-
-// ============================================================
-// Theme System
-// ============================================================
-const ThemeSystem = {
-  currentTheme: 'light',
-  init() {
-    var stored = localStorage.getItem('linkshort_theme');
-    if (stored) {
-      this.currentTheme = stored;
-    } else {
-      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.currentTheme = prefersDark ? 'dark' : 'light';
-      localStorage.setItem('linkshort_theme', this.currentTheme);
-    }
-    this.applyTheme();
-  },
-  toggle() {
-    this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-    localStorage.setItem('linkshort_theme', this.currentTheme);
-    this.applyTheme();
-  },
-  applyTheme() {
-    document.documentElement.setAttribute('data-theme', this.currentTheme);
-    var icon = document.getElementById('themeIcon');
-    if (icon) {
-      icon.className = this.currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
-    }
-  }
-};
-
-// ============================================================
-// QR Generator (using davidshimjs/qrcodejs)
-// ============================================================
-const QRGenerator = {
-  generatePNG: function(text, size) {
-    size = size || 256;
-    return new Promise(function(resolve, reject) {
-      try {
-        var tempDiv = document.createElement('div');
-        tempDiv.style.display = 'none';
-        document.body.appendChild(tempDiv);
-
-        new QRCode(tempDiv, {
-          text: text,
-          width: size,
-          height: size,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.M
-        });
-
-        setTimeout(function() {
-          try {
-            var canvas = tempDiv.querySelector('canvas');
-            if (canvas) {
-              var dataUrl = canvas.toDataURL('image/png');
-              document.body.removeChild(tempDiv);
-              resolve(dataUrl);
-            } else {
-              var img = tempDiv.querySelector('img');
-              if (img && img.src) {
-                document.body.removeChild(tempDiv);
-                resolve(img.src);
-              } else {
-                document.body.removeChild(tempDiv);
-                reject(new Error('QR render failed'));
-              }
-            }
-          } catch (e) {
-            document.body.removeChild(tempDiv);
-            reject(e);
-          }
-        }, 100);
-      } catch (e) {
-        reject(e);
+(function(){
+  var path = location.pathname.substring(1);
+  if(path && path.length >= 4 && path.length <= 10 && !path.includes('.')){
+    try{
+      var store = JSON.parse(localStorage.getItem('ls_urls')||'{}');
+      if(store[path]){
+        window.location.replace(store[path]);
+        return;
       }
+    }catch(e){}
+  }
+})();
+
+// ============================================================
+// LANGUAGE SYSTEM
+// ============================================================
+function t(key){ return (LANGS[currentLang]||{})[key] || key; }
+
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+  // Update lang button
+  var info = LANG_LIST.find(function(l){return l.code===currentLang});
+  if(info){
+    document.getElementById('langFlag').textContent = info.flag;
+    document.getElementById('langName').textContent = info.name;
+  }
+}
+
+function renderLangOptions(){
+  var dd = document.getElementById('langDd');
+  dd.innerHTML = '';
+  LANG_LIST.forEach(function(l){
+    var btn = document.createElement('button');
+    btn.className = 'lang-opt' + (l.code===currentLang?' active':'');
+    btn.innerHTML = '<span>'+l.flag+'</span><span>'+l.name+'</span>';
+    btn.addEventListener('click',function(){
+      currentLang = l.code;
+      localStorage.setItem('ls_lang',currentLang);
+      applyLang();
+      renderLangOptions();
+      closeLangDd();
     });
-  },
+    dd.appendChild(btn);
+  });
+}
 
-  downloadPNG: function(text, filename) {
-    filename = filename || 'qrcode';
-    this.generatePNG(text, 512).then(function(dataUrl) {
-      var link = document.createElement('a');
-      link.download = filename + '.png';
-      link.href = dataUrl;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }).catch(function(e) {
-      console.error('Download PNG error:', e);
-    });
-  },
+function openLangDd(){ document.getElementById('langDd').classList.add('open'); }
+function closeLangDd(){ document.getElementById('langDd').classList.remove('open'); }
 
-  generateSVG: function(text, size) {
-    size = size || 512;
-    var tempDiv = document.createElement('div');
-    tempDiv.style.display = 'none';
-    document.body.appendChild(tempDiv);
+function initLang(){
+  var stored = localStorage.getItem('ls_lang');
+  var browser = navigator.language.substring(0,2);
+  if(stored && LANGS[stored]){ currentLang = stored; }
+  else if(LANGS[browser]){ currentLang = browser; localStorage.setItem('ls_lang',currentLang); }
+  else{ currentLang = 'vi'; localStorage.setItem('ls_lang',currentLang); }
+  applyLang();
+  renderLangOptions();
+}
 
-    new QRCode(tempDiv, {
+// ============================================================
+// THEME SYSTEM
+// ============================================================
+function initTheme(){
+  var stored = localStorage.getItem('ls_theme');
+  if(stored==='dark') document.documentElement.setAttribute('data-theme','dark');
+  updateThemeIcon();
+}
+
+function toggleTheme(){
+  var html = document.documentElement;
+  var isDark = html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme', isDark?'light':'dark');
+  localStorage.setItem('ls_theme', isDark?'light':'dark');
+  updateThemeIcon();
+}
+
+function updateThemeIcon(){
+  var ico = document.getElementById('themeIco');
+  var isDark = document.documentElement.getAttribute('data-theme')==='dark';
+  ico.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg, type){
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + (type==='ok'?'ok':'err');
+  setTimeout(function(){ el.classList.remove('show'); }, 2500);
+}
+
+// ============================================================
+// RIPPLE EFFECT
+// ============================================================
+document.addEventListener('click', function(e){
+  var btn = e.target.closest('.gen-btn, .btn-copy');
+  if(!btn) return;
+  var ripple = document.createElement('span');
+  ripple.className = 'ripple-el';
+  var rect = btn.getBoundingClientRect();
+  var size = Math.max(rect.width, rect.height);
+  ripple.style.width = ripple.style.height = size+'px';
+  ripple.style.left = (e.clientX - rect.left - size/2)+'px';
+  ripple.style.top = (e.clientY - rect.top - size/2)+'px';
+  btn.appendChild(ripple);
+  setTimeout(function(){ ripple.remove(); }, 600);
+});
+
+// ============================================================
+// QR CODE GENERATOR (using qrcode.js library)
+// ============================================================
+function generateQR(containerEl, text){
+  // Clear previous
+  containerEl.innerHTML = '';
+  try{
+    new QRCode(containerEl, {
       text: text,
-      width: size,
-      height: size,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.M
+      width: 256,
+      height: 256,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
     });
+  }catch(e){
+    console.error('QR generation failed:', e);
+  }
+}
 
-    return new Promise(function(resolve, reject) {
-      setTimeout(function() {
-        try {
-          var canvas = tempDiv.querySelector('canvas');
-          if (canvas) {
-            var imageData = canvas.getContext('2d').getImageData(0, 0, size, size);
-            var data = imageData.data;
-            var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + ' ' + size + '">';
-            svg += '<rect width="' + size + '" height="' + size + '" fill="#ffffff"/>';
-            for (var y = 0; y < size; y++) {
-              for (var x = 0; x < size; x++) {
-                var idx = (y * size + x) * 4;
-                if (data[idx] < 128) {
-                  svg += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="#000000"/>';
-                }
-              }
-            }
-            svg += '</svg>';
-            document.body.removeChild(tempDiv);
-            resolve(svg);
-          } else {
-            document.body.removeChild(tempDiv);
-            reject(new Error('QR render failed'));
+function getQRDataURL(containerEl){
+  var canvas = containerEl.querySelector('canvas');
+  if(canvas) return canvas.toDataURL('image/png');
+  var img = containerEl.querySelector('img');
+  if(img && img.src) return img.src;
+  return null;
+}
+
+function downloadPNG(text, filename){
+  var temp = document.createElement('div');
+  temp.style.display = 'none';
+  document.body.appendChild(temp);
+  new QRCode(temp, {
+    text: text,
+    width: 1024,
+    height: 1024,
+    colorDark: '#000000',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+  setTimeout(function(){
+    var canvas = temp.querySelector('canvas');
+    var img = temp.querySelector('img');
+    var dataUrl = canvas ? canvas.toDataURL('image/png') : (img ? img.src : null);
+    if(dataUrl){
+      var a = document.createElement('a');
+      a.download = filename + '.png';
+      a.href = dataUrl;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+    document.body.removeChild(temp);
+  }, 500);
+}
+
+function downloadSVG(text, filename){
+  // Generate SVG manually from QR matrix
+  var temp = document.createElement('div');
+  temp.style.display = 'none';
+  document.body.appendChild(temp);
+  new QRCode(temp, {
+    text: text,
+    width: 512,
+    height: 512,
+    colorDark: '#000000',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+  setTimeout(function(){
+    var canvas = temp.querySelector('canvas');
+    if(canvas){
+      var ctx = canvas.getContext('2d');
+      var w = canvas.width;
+      var size = Math.floor(w / 41); // approximate module size
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+w+' '+w+'" width="1024" height="1024">';
+      svg += '<rect width="'+w+'" height="'+w+'" fill="#ffffff"/>';
+      for(var y = 0; y < w; y += size){
+        for(var x = 0; x < w; x += size){
+          var px = ctx.getImageData(x+1, y+1, 1, 1).data;
+          if(px[0] < 128){
+            svg += '<rect x="'+x+'" y="'+y+'" width="'+size+'" height="'+size+'" fill="#000000"/>';
           }
-        } catch (e) {
-          document.body.removeChild(tempDiv);
-          reject(e);
         }
-      }, 100);
-    });
-  },
-
-  downloadSVG: function(text, filename) {
-    filename = filename || 'qrcode';
-    this.generateSVG(text, 512).then(function(svg) {
-      var blob = new Blob([svg], { type: 'image/svg+xml' });
-      var url = URL.createObjectURL(blob);
-      var link = document.createElement('a');
-      link.download = filename + '.svg';
-      link.href = url;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }).catch(function(e) {
-      console.error('Download SVG error:', e);
-    });
-  },
-
-  renderToImage: function(imgElement, text, size) {
-    size = size || 256;
-    this.generatePNG(text, size).then(function(dataUrl) {
-      imgElement.src = dataUrl;
-      imgElement.alt = 'QR Code';
-    }).catch(function(e) {
-      console.error('QR render error:', e);
-    });
-  }
-};
-
-// ============================================================
-// Copy to Clipboard
-// ============================================================
-const CopyHelper = {
-  copy: function(text) {
-    return new Promise(function(resolve) {
-      try {
-        navigator.clipboard.writeText(text).then(function() { resolve(true); }).catch(function() {
-          var textarea = document.createElement('textarea');
-          textarea.value = text;
-          textarea.style.position = 'fixed';
-          textarea.style.opacity = '0';
-          document.body.appendChild(textarea);
-          textarea.select();
-          var success = document.execCommand('copy');
-          document.body.removeChild(textarea);
-          resolve(success);
-        });
-      } catch (err) {
-        var textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
-        var success = document.execCommand('copy');
-        document.body.removeChild(textarea);
-        resolve(success);
       }
-    });
-  }
-};
+      svg += '</svg>';
+      var blob = new Blob([svg], {type:'image/svg+xml'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.download = filename + '.svg';
+      a.href = url;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    document.body.removeChild(temp);
+  }, 500);
+}
 
 // ============================================================
-// URL Validator
+// COPY HELPER
 // ============================================================
-function isValidURL(url) {
-  try {
-    var parsed = new URL(url);
-    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
-  } catch (e) {
-    return false;
+function copyText(text){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ showToast(t('toast_copied'),'ok'); });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast(t('toast_copied'),'ok');
   }
 }
 
 // ============================================================
-// Main App Controller
+// VALIDATION
 // ============================================================
-const App = {
-  currentResult: null,
+function validURL(url){
+  try{
+    var p = new URL(url);
+    return p.protocol==='http:' || p.protocol==='https:';
+  }catch(e){ return false; }
+}
 
-  init: function() {
-    Toast.init();
-    ThemeSystem.init();
-    RippleEffect.init();
-    this.bindEvents();
-  },
-
-  bindEvents: function() {
-    document.getElementById('btnGenerate').addEventListener('click', function() { App.process(); });
-    document.getElementById('themeToggle').addEventListener('click', function() { ThemeSystem.toggle(); });
-
-    document.getElementById('langToggleBtn').addEventListener('click', function(e) {
-      e.stopPropagation();
-      document.getElementById('langDropdown').classList.toggle('show');
-    });
-
-    document.addEventListener('click', function(e) {
-      var dropdown = document.getElementById('langDropdown');
-      var toggle = document.getElementById('langToggleBtn');
-      if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
-        dropdown.classList.remove('show');
-      }
-    });
-
-    document.getElementById('urlInput').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        App.process();
-      }
-    });
-  },
-
-  process: function() {
-    var input = document.getElementById('urlInput');
-    var url = input.value.trim();
-
-    if (!url) {
-      Toast.show(LangSystem.t('toast_error_empty'), 'error');
-      return;
-    }
-
-    if (!isValidURL(url)) {
-      Toast.show(LangSystem.t('toast_error_url'), 'error');
-      return;
-    }
-
-    this.showLoading(true);
-
-    // Use TinyURL free API for shortening
-    var self = this;
-    var shortUrl = url;
-
-    fetch('https://tinyurl.com/api-create.php?url=' + encodeURIComponent(url))
-      .then(function(response) {
-        if (response.ok) return response.text();
-        throw new Error('API failed');
-      })
-      .then(function(text) {
-        if (text && text.indexOf('http') === 0) {
-          shortUrl = text.trim();
-        }
-        self.finishProcess(url, shortUrl);
-      })
-      .catch(function(apiError) {
-        console.warn('Shortening API failed, using original URL:', apiError);
-        self.finishProcess(url, shortUrl);
-      });
-  },
-
-  finishProcess: function(url, shortUrl) {
-    var self = this;
-    this.currentResult = {
-      originalUrl: url,
-      shortUrl: shortUrl
-    };
-    this.renderResult();
-    this.showLoading(false);
-  },
-
-  showLoading: function(show) {
-    var overlay = document.getElementById('loadingOverlay');
-    if (show) {
-      overlay.classList.add('show');
-    } else {
-      setTimeout(function() { overlay.classList.remove('show'); }, 300);
-    }
-  },
-
-  renderResult: function() {
-    if (!this.currentResult) return;
-
-    var resultSection = document.getElementById('resultSection');
-    var shortUrl = this.currentResult.shortUrl;
-    var t = function(key) { return LangSystem.t(key); };
-
-    var html = '<div class="result-divider"></div>';
-    html += '<div class="result-label">' + t('result_shortened') + '</div>';
-    html += '<div class="result-row">';
-    html += '<div class="result-url"><a href="' + this.escapeHtml(shortUrl) + '" target="_blank" rel="noopener">' + this.escapeHtml(shortUrl) + '</a></div>';
-    html += '<button class="btn-copy" id="btnCopyUrl" onclick="App.copyShortUrl()"><i class="fas fa-copy"></i> ' + t('btn_copy_short') + '</button>';
-    html += '</div>';
-
-    html += '<div class="qr-display">';
-    html += '<img id="qrImage" class="qr-image" src="" alt="QR Code">';
-    html += '</div>';
-
-    html += '<div class="result-actions">';
-    html += '<button class="btn-copy" onclick="App.copyShortUrl()"><i class="fas fa-copy"></i> ' + t('btn_copy_short') + '</button>';
-    html += '<button class="btn-download" onclick="QRGenerator.downloadPNG(\'' + this.escapeHtml(shortUrl) + '\')"><i class="fas fa-download"></i> ' + t('btn_download_png') + '</button>';
-    html += '<button class="btn-download" onclick="QRGenerator.downloadSVG(\'' + this.escapeHtml(shortUrl) + '\')"><i class="fas fa-download"></i> ' + t('btn_download_svg') + '</button>';
-    html += '</div>';
-
-    resultSection.innerHTML = html;
-    resultSection.classList.add('show');
-
-    // Generate QR image
-    var qrImg = document.getElementById('qrImage');
-    if (qrImg) {
-      QRGenerator.renderToImage(qrImg, shortUrl, 256);
-    }
-
-    resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  },
-
-  copyShortUrl: function() {
-    var self = this;
-    var text = this.currentResult ? this.currentResult.shortUrl : '';
-    CopyHelper.copy(text).then(function(success) {
-      if (success) {
-        Toast.show(LangSystem.t('toast_copied'), 'success');
-        var btns = document.querySelectorAll('.btn-copy');
-        btns.forEach(function(btn) {
-          btn.classList.add('copied');
-          btn.innerHTML = '<i class="fas fa-check"></i> ' + LangSystem.t('toast_copied');
-          setTimeout(function() {
-            btn.classList.remove('copied');
-            btn.innerHTML = '<i class="fas fa-copy"></i> ' + LangSystem.t('btn_copy_short');
-          }, 2000);
-        });
-      }
-    });
-  },
-
-  escapeHtml: function(str) {
-    var div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
-};
+function escHtml(s){
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
 
 // ============================================================
-// Initialize on DOM Ready
+// CODE GENERATOR
 // ============================================================
-document.addEventListener('DOMContentLoaded', function() {
-  LangSystem.init();
-  App.init();
+function makeCode(){
+  var c = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var r = '';
+  for(var i=0;i<6;i++) r += c[Math.floor(Math.random()*c.length)];
+  return r;
+}
+
+// ============================================================
+// MAIN PROCESS
+// ============================================================
+function process(){
+  var input = document.getElementById('urlIn');
+  var url = input.value.trim();
+
+  if(!url){ showToast(t('toast_empty'),'err'); return; }
+  if(!validURL(url)){ showToast(t('toast_bad'),'err'); return; }
+
+  // Show loading
+  document.getElementById('overlay').classList.add('show');
+
+  // Generate unique code
+  var store = JSON.parse(localStorage.getItem('ls_urls')||'{}');
+  var code = makeCode();
+  while(store[code]) code = makeCode();
+  store[code] = url;
+  localStorage.setItem('ls_urls', JSON.stringify(store));
+  shortCode = code;
+
+  // Build short URL
+  var shortUrl = location.origin + '/' + code;
+
+  // Simulate brief processing delay
+  setTimeout(function(){
+    document.getElementById('overlay').classList.remove('show');
+    showResult(url, shortUrl);
+  }, 500);
+}
+
+function showResult(originalUrl, shortUrl){
+  var area = document.getElementById('resultArea');
+  var html = '<div class="divider"></div>';
+  html += '<div class="r-label">'+t('r_short')+'</div>';
+  html += '<div class="r-url-box">';
+  html += '<div class="r-url"><a href="'+escHtml(shortUrl)+'" target="_blank" rel="noopener">'+escHtml(shortUrl)+'</a></div>';
+  html += '<button class="btn-copy" onclick="copyText(\''+escHtml(shortUrl)+'\')"><i class="fas fa-copy"></i> '+t('btn_copy')+'</button>';
+  html += '</div>';
+
+  // QR Code display
+  html += '<div class="qr-wrap"><div id="qrDisplay"></div></div>';
+
+  // Action buttons
+  html += '<div class="actions">';
+  html += '<button class="btn-copy" onclick="copyText(\''+escHtml(shortUrl)+'\')"><i class="fas fa-copy"></i> '+t('btn_copy')+'</button>';
+  html += '<button class="btn-dl" onclick="downloadPNG(\''+escHtml(shortUrl)+'\',\'qrcode\')"><i class="fas fa-download"></i> '+t('btn_dl_png')+'</button>';
+  html += '<button class="btn-dl" onclick="downloadSVG(\''+escHtml(shortUrl)+'\',\'qrcode\')"><i class="fas fa-download"></i> '+t('btn_dl_svg')+'</button>';
+  html += '</div>';
+
+  area.innerHTML = html;
+  area.classList.add('show');
+
+  // Render QR
+  var qrContainer = document.getElementById('qrDisplay');
+  generateQR(qrContainer, shortUrl);
+
+  // Smooth scroll to result
+  setTimeout(function(){ area.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 100);
+}
+
+// ============================================================
+// EVENT BINDINGS
+// ============================================================
+document.getElementById('genBtn').addEventListener('click', process);
+document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+document.getElementById('langBtn').addEventListener('click', function(e){
+  e.stopPropagation();
+  var dd = document.getElementById('langDd');
+  dd.classList.contains('open') ? closeLangDd() : openLangDd();
 });
-    </script>
+document.addEventListener('click', function(e){
+  var dd = document.getElementById('langDd');
+  var btn = document.getElementById('langBtn');
+  if(!dd.contains(e.target) && !btn.contains(e.target)) closeLangDd();
+});
+document.getElementById('urlIn').addEventListener('keydown', function(e){
+  if(e.key === 'Enter'){ e.preventDefault(); process(); }
+});
+
+// ============================================================
+// INIT
+// ============================================================
+initLang();
+initTheme();
+</script>
 </body>
 </html>
