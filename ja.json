@@ -1,0 +1,24 @@
+{
+  "translations": {
+    "page_title": "URL Shortener & QR Code Generator - Free Tool",
+    "page_description": "Shorten long URLs and generate QR codes quickly and for free.",
+    "logo_text": "LinkShort",
+    "hero_title": "Shorten URLs & Generate QR Codes",
+    "hero_subtitle": "Free tool to shorten your URLs and create professional QR codes in seconds",
+    "input_placeholder": "Paste your link here...",
+    "btn_generate": "Generate Link & QR",
+    "result_shortened": "Shortened URL",
+    "btn_copy_short": "Copy",
+    "btn_download_png": "Download PNG",
+    "btn_download_svg": "Download SVG",
+    "loading_text": "Processing...",
+    "toast_copied": "Copied!",
+    "toast_error_empty": "Please enter a URL",
+    "toast_error_url": "Invalid URL format",
+    "toast_error_server": "Something went wrong, please try again",
+    "toast_success": "Success!",
+    "theme_toggle_dark": "Switch to dark mode",
+    "theme_toggle_light": "Switch to light mode",
+    "footer_text": "© 2026 LinkShort. Free and open source."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "translations": {
+    "page_title": "Rút gọn liên kết & Tạo mã QR - Công cụ miễn phí",
+    "page_description": "Rút gọn liên kết dài thành ngắn gọn và tạo mã QR code nhanh chóng, miễn phí.",
+    "logo_text": "LinkShort",
+    "hero_title": "Rút gọn liên kết & Tạo mã QR",
+    "hero_subtitle": "Công cụ miễn phí giúp bạn rút gọn URL và tạo mã QR chuyên nghiệp trong vài giây",
+    "input_placeholder": "Dán liên kết của bạn vào đây...",
+    "btn_generate": "Tạo Link & QR",
+    "result_shortened": "Liên kết rút gọn",
+    "btn_copy_short": "Sao chép",
+    "btn_download_png": "Tải PNG",
+    "btn_download_svg": "Tải SVG",
+    "loading_text": "Đang xử lý...",
+    "toast_copied": "Đã sao chép!",
+    "toast_error_empty": "Vui lòng nhập liên kết",
+    "toast_error_url": "Liên kết không hợp lệ",
+    "toast_error_server": "Có lỗi xảy ra, vui lòng thử lại",
+    "toast_success": "Thành công!",
+    "theme_toggle_dark": "Chuyển sang chế độ tối",
+    "theme_toggle_light": "Chuyển sang chế độ sáng",
+    "footer_text": "© 2026 LinkShort. Miễn phí và mã nguồn mở."
+  }
+}
